@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import 'package:movie_app/data/core/api_client.dart';
+import 'data/data_sources/movie_remote_data_source.dart';
 
 void main() {
-  runApp(MyApp());
-}
+    ApiClient apiClient = ApiClient(Client());
+    MovieRemoteDataSource dataSource = MovieRemoteDataSourceImpl(apiClient);
+    dataSource.getTrending();
+    runApp(MyApp());
+  }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
