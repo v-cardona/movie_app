@@ -6,7 +6,7 @@ import 'package:movie_app/data/core/api_client.dart';
 import 'package:movie_app/data/repositories/movie_repository_impl.dart';
 import 'package:movie_app/domain/usecases/get_trending.dart';
 import 'data/data_sources/movie_remote_data_source.dart';
-import 'domain/entities/MovieEntity.dart';
+import 'domain/entities/movie_entity.dart';
 import 'domain/entities/app_error.dart';
 import 'domain/repositories/movie_repository.dart';
 

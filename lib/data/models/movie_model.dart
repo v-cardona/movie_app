@@ -1,5 +1,5 @@
 
-import 'package:movie_app/domain/entities/MovieEntity.dart';
+import 'package:movie_app/domain/entities/movie_entity.dart';
 
 class MovieModel extends MovieEntity{
   final String releaseDate;
