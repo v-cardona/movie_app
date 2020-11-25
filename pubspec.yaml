@@ -33,8 +33,10 @@ dependencies:
   equatable: ^1.2.0
   # permite realizar llamadas http
   http: ^0.12.1
-  
+  # permite realizar un return entre dos tipos de clases y actuar a corde
   dartz: ^0.9.2
+  # para di(dependency injection)
+  get_it: ^5.0.1
 
 dev_dependencies:
   flutter_test:
