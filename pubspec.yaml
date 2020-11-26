@@ -40,7 +40,11 @@ dependencies:
   # google fonts
   google_fonts: ^1.1.1
   # bloc design pattern
-  bloc: ^6.1.0
+  flutter_bloc: ^6.1.1
+  # handle svgs files
+  flutter_svg: ^0.18.1
+  # to load images from internet
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +63,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/svgs
-    - assets/pngs
+    - assets/svgs/
+    - assets/pngs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

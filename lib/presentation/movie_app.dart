@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:movie_app/common/screenutil/screenutil.dart';
+import 'package:movie_app/presentation/journeys/home/home_screen.dart';
 import 'package:movie_app/presentation/themes/app_color.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
