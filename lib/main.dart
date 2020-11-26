@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pedantic/pedantic.dart';
 
 import 'di/get_it.dart' as getIt;
+import 'package:movie_app/presentation/movie_app.dart';
 
 
 void main() {
