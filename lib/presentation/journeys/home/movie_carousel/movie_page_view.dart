@@ -6,10 +6,7 @@ import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/screenutil/screenutil.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
-import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/journeys/home/movie_carousel/animated_movie_card_widget.dart';
-
-import 'movie_card_widget.dart';
 
 class MoviePageView extends StatefulWidget {
   final List<MovieEntity> movies;
