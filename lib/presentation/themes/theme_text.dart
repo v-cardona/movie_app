@@ -9,6 +9,11 @@ class ThemeText {
   const ThemeText._();
 
   static TextTheme get _poppinsTextTheme => GoogleFonts.poppinsTextTheme();
+  
+  static TextStyle get _whiteHeadline5 => _poppinsTextTheme.headline6.copyWith(
+    fontSize: Sizes.dimen_24.sp,
+    color: Colors.white,
+  );
 
   static TextStyle get _whiteHeadline6 => _poppinsTextTheme.headline6.copyWith(
         fontSize: Sizes.dimen_20.sp,
@@ -27,11 +32,18 @@ class ThemeText {
     letterSpacing: 0.25,
     height: 1.5,
   );
+
+  static TextStyle get _whiteButton => _poppinsTextTheme.button.copyWith(
+    fontSize: Sizes.dimen_14.sp,
+    color: Colors.white,
+  );
   
   static getTextTheme() => TextTheme(
+    headline5: _whiteHeadline5,
     headline6: _whiteHeadline6,
     subtitle1: whiteSubtitle1,
     bodyText2: whiteBodyText2,
+    button: _whiteButton
   );
 }
 

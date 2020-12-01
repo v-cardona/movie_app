@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/presentation/widgets/app_dialog.dart';
 import 'package:wiredash/wiredash.dart';
 
 import 'package:movie_app/common/constants/languages.dart';
@@ -68,9 +69,28 @@ class NavigationDrawer extends StatelessWidget {
             ),
             NavigationListItem(
               title: TranslationConstants.about.translate(context),
-              onPressed: () {},
+              onPressed: () {
+                
+                Navigator.of(context).pop();
+                _showDialog(context);
+              },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      child: AppDialog(
+        title: TranslationConstants.about,
+        description: TranslationConstants.aboutDescription,
+        buttonText: TranslationConstants.okay,
+        image: Image.asset(
+          'assets/pngs/tmdb_logo.png',
+          height: Sizes.dimen_32.h,
         ),
       ),
     );
