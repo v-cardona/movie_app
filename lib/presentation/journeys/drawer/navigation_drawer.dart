@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/common/constants/languages.dart';
+import 'package:wiredash/wiredash.dart';
 
+import 'package:movie_app/common/constants/languages.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
@@ -59,7 +60,11 @@ class NavigationDrawer extends StatelessWidget {
             ),
             NavigationListItem(
               title: TranslationConstants.feedback.translate(context),
-              onPressed: () {},
+              onPressed: () {
+                
+                Navigator.of(context).pop();
+                Wiredash.of(context).show();
+              },
             ),
             NavigationListItem(
               title: TranslationConstants.about.translate(context),

@@ -48,6 +48,8 @@ dependencies:
   # to i18n
   flutter_localizations:
     sdk: flutter
+  # feedback module
+  wiredash: ^0.2.0
 
 dev_dependencies:
   flutter_test:
