@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/common/constants/languages.dart';
 
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
+import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
 import 'package:movie_app/presentation/widgets/logo.dart';
 
 import 'navigation_expanded_list_item.dart';
@@ -49,7 +51,11 @@ class NavigationDrawer extends StatelessWidget {
             NavigationExpandedListItem(
               title: TranslationConstants.language.translate(context),
               children: Languages.languages.map((e) => e.value).toList(),
-              onPressed: (index) {},
+              onPressed: (index) {
+                BlocProvider.of<LanguageBloc>(context).add(
+                  ToggleLanguageEvent(Languages.languages[index])
+                );
+              },
             ),
             NavigationListItem(
               title: TranslationConstants.feedback.translate(context),

@@ -32,9 +32,9 @@ class NavigationExpandedListItem extends StatelessWidget {
         ),
         children: <Widget>[
           for (int i = 0; i < children.length; i++)
-            NavigationListItem(
+            NavigationSubListItem(
               title: children[i],
-              onPressed: () {},
+              onPressed: () => onPressed(i),
             ),
         ],
       ),
