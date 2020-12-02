@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movie_app/common/constants/movie_tabbed_constants.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
+import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
+import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tabbed/tab_title_widget.dart';
 import 'package:movie_app/presentation/widgets/app_error_widget.dart';
@@ -34,6 +36,8 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
   @override
   Widget build(BuildContext context) {
 
+    final globalContext = context;
+
     return BlocBuilder<MovieTabbedBloc, MovieTabbedState>(
       builder: (context, state) {
         return Padding(
@@ -54,9 +58,19 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
               ),
               
               if (state is MovieTabChanged)
-                Expanded(
-                  child: MovieListViewBuilder(movies: state.movies),
-                ),
+                state.movies?.isEmpty ?? true
+                ? Expanded(
+                    child: Center(
+                      child: Text(
+                        TranslationConstants.noMovies.translate(globalContext),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      )
+                    ),
+                  )
+                : Expanded(
+                    child: MovieListViewBuilder(movies: state.movies),
+                  ),
               if (state is MovieTabLoadError)
                 Expanded(
                   child: AppErrorWidget(
