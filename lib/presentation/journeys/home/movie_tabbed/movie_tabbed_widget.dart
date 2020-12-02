@@ -6,6 +6,7 @@ import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tabbed/tab_title_widget.dart';
+import 'package:movie_app/presentation/widgets/app_error_widget.dart';
 
 import 'movie_list_view_builder.dart';
 
@@ -56,6 +57,15 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
                 Expanded(
                   child: MovieListViewBuilder(movies: state.movies),
                 ),
+              if (state is MovieTabLoadError)
+                Expanded(
+                  child: AppErrorWidget(
+                    errorType: state.errorType,
+                    onPressed: () => movieTabbedBloc.add(
+                      MovieTabChangedEvent(currentTabIndex: currentTabIndex)
+                    )
+                  ),
+                )
             ],
           ),
         );
