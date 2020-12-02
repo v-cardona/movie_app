@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:wiredash/wiredash.dart';
+
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/domain/entities/app_error.dart';
-import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/widgets/button.dart';
-import 'package:wiredash/wiredash.dart';
 
-class CarouselLoadErrorWidget extends StatelessWidget {
+class AppErrorWidget extends StatelessWidget {
 
   final AppErrorType errorType;
-  final MovieCarouselBloc bloc;
+  final Function onPressed;
 
-  const CarouselLoadErrorWidget({
+  const AppErrorWidget({
     Key key,
     @required this.errorType,
-    @required this.bloc
+    @required this.onPressed
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class CarouselLoadErrorWidget extends StatelessWidget {
             children: [
               Button(
                 text: TranslationConstants.retry,
-                onPressed: () => bloc.add(CarouselLoadEvent())
+                onPressed: onPressed
               ),
               Button(
                 text: TranslationConstants.feedback,
