@@ -1,7 +1,7 @@
 
 import 'package:movie_app/domain/entities/movie_entity.dart';
 
-class MovieModel extends MovieEntity{
+class MovieModel extends MovieEntity {
   final String releaseDate;
   final bool adult;
   final String backdropPath;
