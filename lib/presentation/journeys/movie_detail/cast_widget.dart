@@ -50,6 +50,9 @@ class CastWidget extends StatelessWidget {
                               height: Sizes.dimen_100.h,
                               width: Sizes.dimen_160.w,
                               imageUrl: '${ApiConstants.BASE_IMAGE_URL}${castEntity.posterPath}',
+                              errorWidget: (context, url, error) {
+                                return Image(image: AssetImage('assets/jpgs/placeholder_person.jpg'));
+                              },
                               fit: BoxFit.fitWidth,
                             ),
                           ),
