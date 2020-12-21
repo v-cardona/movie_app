@@ -12,5 +12,6 @@
   "somethingWentWrong": "Algo salió mal...",
   "checkNetwork": "Verifique su conexión de red y presione el botón Reintentar o colóquelo como error presionando el botón Feedback.",
   "noMovies": "Lo siento, no hay películas en esta sección.",
-  "cast": "Casting"
+  "cast": "Casting",
+  "watchTrailers": "Ver Tráilers"
 }

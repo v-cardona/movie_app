@@ -50,6 +50,8 @@ dependencies:
     sdk: flutter
   # feedback module
   wiredash: ^0.2.0
+  # playing/stream YouTube videos inline
+  youtube_player_flutter: ^7.0.0+7
 
 dev_dependencies:
   flutter_test:

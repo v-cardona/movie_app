@@ -17,7 +17,7 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
 
   final GetVideos getVideos;
 
-  VideosBloc(this.getVideos) : super(VideosInitial());
+  VideosBloc({@required this.getVideos}) : super(VideosInitial());
 
   @override
   Stream<VideosState> mapEventToState(
