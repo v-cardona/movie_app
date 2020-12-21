@@ -76,33 +76,36 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                           height: 60.h,
                           padding:
                               EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
-                          child: Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  _controller.load(_videos[i].key);
-                                  _controller.play();
-                                },
-                                child: CachedNetworkImage(
+                          child: GestureDetector(
+                            onTap: () {
+                              _controller.load(_videos[i].key);
+                              _controller.play();
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                CachedNetworkImage(
                                   width: Sizes.dimen_200.w,
                                   imageUrl: YoutubePlayer.getThumbnail(
                                     videoId: _videos[i].key,
                                     quality: ThumbnailQuality.high,
                                   ),
+                                  errorWidget: (context, url, error) {
+                                    return Image.asset('assets/jpgs/placeholder_video.jpg');
+                                  },
                                 ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 8.w),
-                                  child: Text(
-                                    _videos[i].title,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
+                                Expanded(
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    child: Text(
+                                      _videos[i].title,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                     ],
