@@ -42,6 +42,9 @@ class SearchMovieCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie.posterPath}',
                   width: Sizes.dimen_80.w,
+                  errorWidget: (context, url, error) {
+                    return Image(image: AssetImage('assets/pngs/placeholder_movie.png'));
+                  },
                 ),
               ),
             ),
