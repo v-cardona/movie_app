@@ -28,7 +28,7 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
       yield SearchMovieLoading();
       final Either<AppError, List<MovieEntity>> response = await searchMovies(MovieSearchParams(searchTerm: event.searchTerm));
       yield response.fold(
-        (l) => SearchMovieError(),
+        (l) => SearchMovieError(l.errorType),
         (r) => SearchMovieLoaded(r)
       );
     }
