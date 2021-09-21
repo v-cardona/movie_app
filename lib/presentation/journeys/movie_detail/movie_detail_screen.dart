@@ -7,6 +7,7 @@ import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/di/get_it.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
+import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
 import 'package:movie_app/presentation/blocs/videos/videos_bloc.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_arguments.dart';
@@ -16,24 +17,21 @@ import 'big_poster.dart';
 import 'cast_widget.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-
   final MovieDetailArguments movieDetailArguments;
 
-  const MovieDetailScreen({
-    Key key,
-    @required this.movieDetailArguments
-  }) : assert (movieDetailArguments != null, 'arguments must not be null'),
-      super(key: key);
+  const MovieDetailScreen({Key key, @required this.movieDetailArguments})
+      : assert(movieDetailArguments != null, 'arguments must not be null'),
+        super(key: key);
 
   @override
   _MovieDetailScreenState createState() => _MovieDetailScreenState();
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  
   MovieDetailBloc _movieDetailBloc;
   CastBloc _castBloc;
   VideosBloc _videosBloc;
+  FavouriteBloc _favouriteBloc;
 
   @override
   void initState() {
@@ -41,21 +39,23 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     _movieDetailBloc = getItInstance<MovieDetailBloc>();
     _castBloc = _movieDetailBloc.castBloc;
     _videosBloc = _movieDetailBloc.videosBloc;
+    _favouriteBloc = _movieDetailBloc.favouriteBloc;
     _movieDetailBloc.add(
       MovieDetailLoadEvent(
         widget.movieDetailArguments.movieId,
       ),
     );
   }
-  
+
   @override
   void dispose() {
     _movieDetailBloc?.close();
     _castBloc?.close();
     _videosBloc?.close();
+    _favouriteBloc?.close();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +63,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         providers: [
           BlocProvider.value(value: _movieDetailBloc),
           BlocProvider.value(value: _castBloc),
-          BlocProvider.value(value: _videosBloc)
+          BlocProvider.value(value: _videosBloc),
+          BlocProvider.value(value: _favouriteBloc)
         ],
         child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
           builder: (context, state) {
@@ -74,21 +75,19 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    BigPoster(
-                      movie: movieDetail
-                    ),
+                    BigPoster(movie: movieDetail),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: Sizes.dimen_16.w,
-                        vertical: Sizes.dimen_8.h
-                      ),
+                          horizontal: Sizes.dimen_16.w,
+                          vertical: Sizes.dimen_8.h),
                       child: Text(
                         movieDetail.overview,
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
                       child: Text(
                         TranslationConstants.cast.translate(context),
                         style: Theme.of(context).textTheme.headline6,
@@ -108,5 +107,4 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       ),
     );
   }
-
 }

@@ -19,7 +19,14 @@ class MovieTable extends MovieEntity {
     @required this.id,
     @required this.title,
     @required this.posterPath,
-  });
+  }) : super(
+          id: id,
+          backdropPath: '',
+          posterPath: posterPath,
+          releaseDate: '',
+          title: title,
+          voteAverage: 0,
+        );
 
   factory MovieTable.fromMovieEntity(MovieEntity movieEntity) {
     return MovieTable(

@@ -98,10 +98,14 @@ Future init() async {
     ),
   );
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc());
-  getItInstance.registerFactory(() => MovieDetailBloc(
+  getItInstance.registerFactory(
+    () => MovieDetailBloc(
       getMovieDetail: getItInstance(),
       castBloc: getItInstance(),
-      videosBloc: getItInstance()));
+      videosBloc: getItInstance(),
+      favouriteBloc: getItInstance(),
+    ),
+  );
   getItInstance.registerFactory(() => CastBloc(getCast: getItInstance()));
   getItInstance.registerFactory(() => VideosBloc(getVideos: getItInstance()));
 
