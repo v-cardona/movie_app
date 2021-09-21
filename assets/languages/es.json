@@ -14,5 +14,6 @@
   "noMovies": "Lo siento, no hay películas en esta sección.",
   "cast": "Casting",
   "watchTrailers": "Ver Tráilers",
-  "noMoviesSearched": "No se han encontrado peliculas, por favor intentalo con  otras palabras"
+  "noMoviesSearched": "No se han encontrado peliculas, por favor intentalo con  otras palabras",
+  "noFavouritesMovies": "Sin peliculas favoritas"
 }
