@@ -1,38 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/common/constants/routes_constants.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/data/core/api_constants.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_arguments.dart';
-import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_screen.dart';
 
 class SearchMovieCard extends StatelessWidget {
   final MovieEntity movie;
 
-  const SearchMovieCard({
-    Key key,
-    @required this.movie
-  }) : super(key: key);
+  const SearchMovieCard({Key key, @required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MovieDetailScreen(
-              movieDetailArguments: MovieDetailArguments(movie.id),
-            ),
-          )
+        Navigator.of(context).pushNamed(
+          RouteList.movieDetail,
+          arguments: MovieDetailArguments(movie.id),
         );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Sizes.dimen_16.w,
-          vertical: Sizes.dimen_2.h
-        ),
+            horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_2.h),
         child: Row(
           children: [
             Padding(
@@ -43,30 +35,30 @@ class SearchMovieCard extends StatelessWidget {
                   imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie.posterPath}',
                   width: Sizes.dimen_80.w,
                   errorWidget: (context, url, error) {
-                    return Image(image: AssetImage('assets/pngs/placeholder_movie.png'));
+                    return Image(
+                        image: AssetImage('assets/pngs/placeholder_movie.png'));
                   },
                 ),
               ),
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    movie.title,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  Text(
-                    movie.overview,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.greyCaption,
-                  )
-                ],
-              )
-            )
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  movie.title,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                Text(
+                  movie.overview,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.greyCaption,
+                )
+              ],
+            ))
           ],
         ),
       ),
