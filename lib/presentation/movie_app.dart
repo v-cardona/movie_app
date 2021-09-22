@@ -13,13 +13,11 @@ import 'package:movie_app/presentation/themes/theme_text.dart';
 import 'package:movie_app/presentation/wiredash_app.dart';
 
 class MovieApp extends StatefulWidget {
-
   @override
   _MovieAppState createState() => _MovieAppState();
 }
 
 class _MovieAppState extends State<MovieApp> {
-
   final _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc _languageBloc;
 
@@ -27,6 +25,7 @@ class _MovieAppState extends State<MovieApp> {
   void initState() {
     super.initState();
     _languageBloc = getItInstance<LanguageBloc>();
+    _languageBloc.add(LoadPreferredLanguageEvent());
   }
 
   @override
@@ -61,7 +60,8 @@ class _MovieAppState extends State<MovieApp> {
                   textTheme: ThemeText.getTextTheme(),
                   appBarTheme: const AppBarTheme(elevation: 0),
                 ),
-                supportedLocales: Languages.languages.map((e) => Locale(e.code)).toList(),
+                supportedLocales:
+                    Languages.languages.map((e) => Locale(e.code)).toList(),
                 locale: state.locale,
                 localizationsDelegates: [
                   AppLocalizations.delegate,
