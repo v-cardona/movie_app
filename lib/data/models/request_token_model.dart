@@ -1,6 +1,6 @@
 class RequestTokenModel {
   final bool success;
-  final DateTime expiresAt;
+  final String expiresAt;
   final String requestToken;
 
   RequestTokenModel({
@@ -11,7 +11,7 @@ class RequestTokenModel {
 
   factory RequestTokenModel.fromJson(Map<String, dynamic> json) {
     return RequestTokenModel(
-        expiresAt: json['success'],
+        expiresAt: json['expires_at'],
         requestToken: json['request_token'],
         success: json['success']);
   }

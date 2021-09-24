@@ -15,5 +15,15 @@
   "cast": "Casting",
   "watchTrailers": "Ver Tráilers",
   "noMoviesSearched": "No se han encontrado peliculas, por favor intentalo con  otras palabras",
-  "noFavouritesMovies": "Sin peliculas favoritas"
+  "noFavouritesMovies": "Sin peliculas favoritas",
+  "loginToMovieApp": "Inicie sesión en la aplicación a través de TMDb",
+  "username": "Nombre de usuario",
+  "password": "Contraseña",
+  "signIn": "Registrarse",
+  "logout": "Cerrar sesión",
+  "wrongUsernamePassword": "El nombre de usuario o la identificación de correo electrónico no son válidos",
+  "noNetwork": "No hay conexion de red",
+  "sessionDenied": "Sesión denegada",
+  "enterTMDbUsername": "Ingrese el nombre de usuario de TMDb aquí ...",
+  "enterPassword": "Ingrese la contraseña aquí..."
 }

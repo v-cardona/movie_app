@@ -16,9 +16,10 @@ class AuthenticationRemoteDataSourceImpl
   @override
   Future<String> createSession(Map<String, dynamic> requestBody) async {
     final response = await _client.post(
-      'authentication/token/validate_with_login',
+      'authentication/session/new',
       params: requestBody,
     );
+    print(response);
     return response['success'] ? response['session_id'] : null;
   }
 

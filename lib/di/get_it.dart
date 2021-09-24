@@ -2,12 +2,16 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 
 import 'package:movie_app/data/core/api_client.dart';
+import 'package:movie_app/data/data_sources/authentication_local_data_source.dart';
+import 'package:movie_app/data/data_sources/authentication_remote_data_source.dart';
 import 'package:movie_app/data/data_sources/language_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_remote_data_source.dart';
 import 'package:movie_app/data/repositories/app_repository_impl.dart';
+import 'package:movie_app/data/repositories/authentication_repository_impl.dart';
 import 'package:movie_app/data/repositories/movie_repository_impl.dart';
 import 'package:movie_app/domain/repositories/app_repository.dart';
+import 'package:movie_app/domain/repositories/authentication_repository.dart';
 import 'package:movie_app/domain/repositories/movie_repository.dart';
 import 'package:movie_app/domain/usecases/check_if_favourite_movie.dart';
 import 'package:movie_app/domain/usecases/delete_favourite_movie.dart';
@@ -20,12 +24,14 @@ import 'package:movie_app/domain/usecases/get_popular.dart';
 import 'package:movie_app/domain/usecases/get_preferred_language.dart';
 import 'package:movie_app/domain/usecases/get_trending.dart';
 import 'package:movie_app/domain/usecases/get_videos.dart';
+import 'package:movie_app/domain/usecases/login_user.dart';
 import 'package:movie_app/domain/usecases/save_movie.dart';
 import 'package:movie_app/domain/usecases/search_movies.dart';
 import 'package:movie_app/domain/usecases/update_language.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
+import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
@@ -45,6 +51,10 @@ Future init() async {
       () => MovieLocalDataSourceImpl());
   getItInstance.registerLazySingleton<LanguageLocalDataSource>(
       () => LanguageLocalDataSourceImpl());
+  getItInstance.registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl(getItInstance()));
+  getItInstance.registerLazySingleton<AuthenticationLocalDataSource>(
+      () => AuthenticationLocalDataSourceImpl());
 
   // init usecases
   getItInstance
@@ -95,6 +105,11 @@ Future init() async {
       getItInstance(),
     ),
   );
+  getItInstance.registerLazySingleton<LoginUser>(
+    () => LoginUser(
+      getItInstance(),
+    ),
+  );
   // movie repository
   getItInstance.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
@@ -105,6 +120,13 @@ Future init() async {
   // app repository
   getItInstance.registerLazySingleton<AppRepository>(
     () => AppRepositoryImpl(
+      getItInstance(),
+    ),
+  );
+  // authentication repository
+  getItInstance.registerLazySingleton<AuthenticationRepository>(
+    () => AuthenticationRepositoryImpl(
+      getItInstance(),
       getItInstance(),
     ),
   );
@@ -125,6 +147,9 @@ Future init() async {
       getPreferredLanguage: getItInstance(),
       updateLanguage: getItInstance(),
     ),
+  );
+  getItInstance.registerSingleton<LoginBloc>(
+    LoginBloc(loginUser: getItInstance()),
   );
   getItInstance.registerFactory(
     () => MovieDetailBloc(
