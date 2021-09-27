@@ -11,7 +11,7 @@ import 'package:movie_app/domain/entities/movie_params.dart';
 import 'package:movie_app/domain/usecases/get_movie_detail.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
-import 'package:movie_app/presentation/blocs/loading/loading_bloc.dart';
+import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
 import 'package:movie_app/presentation/blocs/videos/videos_bloc.dart';
 
 part 'movie_detail_event.dart';
@@ -22,10 +22,10 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final CastBloc castBloc;
   final VideosBloc videosBloc;
   final FavouriteBloc favouriteBloc;
-  final LoadingBloc loadingBloc;
+  final LoadingCubit loadingCubit;
 
   MovieDetailBloc({
-    @required this.loadingBloc,
+    @required this.loadingCubit,
     @required this.castBloc,
     @required this.getMovieDetail,
     @required this.videosBloc,
@@ -37,7 +37,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     MovieDetailEvent event,
   ) async* {
     if (event is MovieDetailLoadEvent) {
-      loadingBloc.add(StartLoading());
+      loadingCubit.show();
       final Either<AppError, MovieDetailEntity> eitherResponse =
           await getMovieDetail(
         MovieParams(event.movieId),
@@ -51,7 +51,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       favouriteBloc.add(CheckIfFavouriteMovieEvent(event.movieId));
       castBloc.add(LoadCastEvent(movieId: event.movieId));
       videosBloc.add(LoadVideoEvent(movieId: event.movieId));
-      loadingBloc.add(FinishLoading());
+      loadingCubit.hide();
     }
   }
 }

@@ -8,7 +8,7 @@ import 'package:movie_app/common/screenutil/screenutil.dart';
 import 'package:movie_app/di/get_it.dart';
 import 'package:movie_app/presentation/app_localizations.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
-import 'package:movie_app/presentation/blocs/loading/loading_bloc.dart';
+import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
 import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
 import 'package:movie_app/presentation/journeys/loading/loading_screen.dart';
 import 'package:movie_app/presentation/routes.dart';
@@ -27,7 +27,7 @@ class _MovieAppState extends State<MovieApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc _languageBloc;
   LoginBloc _loginBloc;
-  LoadingBloc _loadingBloc;
+  LoadingCubit _loadingCubit;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MovieAppState extends State<MovieApp> {
     _languageBloc = getItInstance<LanguageBloc>();
     _languageBloc.add(LoadPreferredLanguageEvent());
     _loginBloc = getItInstance<LoginBloc>();
-    _loadingBloc = getItInstance<LoadingBloc>();
+    _loadingCubit = getItInstance<LoadingCubit>();
   }
 
   @override
@@ -43,7 +43,7 @@ class _MovieAppState extends State<MovieApp> {
     super.dispose();
     _languageBloc.close();
     _loginBloc.close();
-    _loadingBloc.close();
+    _loadingCubit.close();
   }
 
   @override
@@ -59,8 +59,8 @@ class _MovieAppState extends State<MovieApp> {
         BlocProvider<LoginBloc>.value(
           value: _loginBloc,
         ),
-        BlocProvider<LoadingBloc>.value(
-          value: _loadingBloc,
+        BlocProvider<LoadingCubit>.value(
+          value: _loadingCubit,
         ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(

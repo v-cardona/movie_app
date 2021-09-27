@@ -5,7 +5,7 @@ import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/screenutil/screenutil.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
-import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
+import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_cubit.dart';
 import 'package:movie_app/presentation/journeys/home/movie_carousel/animated_movie_card_widget.dart';
 
 class MoviePageView extends StatefulWidget {
@@ -24,7 +24,6 @@ class MoviePageView extends StatefulWidget {
 }
 
 class _MoviePageViewState extends State<MoviePageView> {
-
   PageController _pageController;
 
   @override
@@ -62,10 +61,11 @@ class _MoviePageViewState extends State<MoviePageView> {
         pageSnapping: true,
         itemCount: widget.movies?.length ?? 0,
         onPageChanged: (index) {
-          context.read<MovieBackdropBloc>().add(MovieBackdropChangedEvent(widget.movies[index]));
+          context
+              .read<MovieBackdropCubit>()
+              .backdropChanged(widget.movies[index]);
         },
       ),
     );
   }
-
 }

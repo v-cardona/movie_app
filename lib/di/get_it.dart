@@ -32,9 +32,9 @@ import 'package:movie_app/domain/usecases/update_language.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
-import 'package:movie_app/presentation/blocs/loading/loading_bloc.dart';
+import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
 import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
-import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
+import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_cubit.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
@@ -139,15 +139,15 @@ Future init() async {
   );
 
   // bloc
-  getItInstance.registerSingleton<LoadingBloc>(
-    LoadingBloc(),
+  getItInstance.registerSingleton<LoadingCubit>(
+    LoadingCubit(),
   );
+  getItInstance.registerLazySingleton(() => MovieBackdropCubit());
   getItInstance.registerFactory(() => MovieCarouselBloc(
         getTrending: getItInstance(),
-        movieBackdropBloc: getItInstance(),
-        loadingBloc: getItInstance(),
+        movieBackdropCubit: getItInstance(),
+        loadingCubit: getItInstance(),
       ));
-  getItInstance.registerLazySingleton(() => MovieBackdropBloc());
   getItInstance.registerFactory(
     () => MovieTabbedBloc(
       getPopular: getItInstance(),
@@ -165,12 +165,12 @@ Future init() async {
     LoginBloc(
       loginUser: getItInstance(),
       logoutUser: getItInstance(),
-      loadingBloc: getItInstance(),
+      loadingCubit: getItInstance(),
     ),
   );
   getItInstance.registerFactory(
     () => MovieDetailBloc(
-      loadingBloc: getItInstance(),
+      loadingCubit: getItInstance(),
       getMovieDetail: getItInstance(),
       castBloc: getItInstance(),
       videosBloc: getItInstance(),
@@ -181,7 +181,7 @@ Future init() async {
   getItInstance.registerFactory(() => VideosBloc(getVideos: getItInstance()));
 
   getItInstance.registerFactory(() => SearchMovieBloc(
-        loadingBloc: getItInstance(),
+        loadingCubit: getItInstance(),
         searchMovies: getItInstance(),
       ));
   getItInstance.registerFactory(

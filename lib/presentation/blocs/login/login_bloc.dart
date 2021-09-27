@@ -8,7 +8,7 @@ import 'package:movie_app/domain/entities/login_requets_params.dart';
 import 'package:movie_app/domain/entities/no_params.dart';
 import 'package:movie_app/domain/usecases/login_user.dart';
 import 'package:movie_app/domain/usecases/logout_user.dart';
-import 'package:movie_app/presentation/blocs/loading/loading_bloc.dart';
+import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -16,12 +16,12 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUser loginUser;
   final LogoutUser logoutUser;
-  final LoadingBloc loadingBloc;
+  final LoadingCubit loadingCubit;
 
   LoginBloc({
     @required this.loginUser,
     @required this.logoutUser,
-    @required this.loadingBloc,
+    @required this.loadingCubit,
   }) : super(LoginInitial());
 
   @override
@@ -29,7 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginEvent event,
   ) async* {
     if (event is LoginInitiateEvent) {
-      loadingBloc.add(StartLoading());
+      loadingCubit.show();
       final Either<AppError, bool> eitherResponse = await loginUser(
         LoginRequestParams(
           userName: event.username,
@@ -44,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         },
         (r) => LoginSuccess(),
       );
-      loadingBloc.add(FinishLoading());
+      loadingCubit.hide();
     } else if (event is LogoutEvent) {
       await logoutUser(NoParams());
       yield LogoutSuccess();
