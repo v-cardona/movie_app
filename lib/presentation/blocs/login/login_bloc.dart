@@ -5,16 +5,20 @@ import 'package:equatable/equatable.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/domain/entities/app_error.dart';
 import 'package:movie_app/domain/entities/login_requets_params.dart';
+import 'package:movie_app/domain/entities/no_params.dart';
 import 'package:movie_app/domain/usecases/login_user.dart';
+import 'package:movie_app/domain/usecases/logout_user.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUser loginUser;
+  final LogoutUser logoutUser;
 
   LoginBloc({
     @required this.loginUser,
+    @required this.logoutUser,
   }) : super(LoginInitial());
 
   @override
@@ -36,6 +40,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         },
         (r) => LoginSuccess(),
       );
+    } else if (event is LogoutEvent) {
+      await logoutUser(NoParams());
+      yield LogoutSuccess();
     }
   }
 
