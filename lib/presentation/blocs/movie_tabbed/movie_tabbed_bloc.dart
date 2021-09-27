@@ -16,22 +16,22 @@ part 'movie_tabbed_event.dart';
 part 'movie_tabbed_state.dart';
 
 class MovieTabbedBloc extends Bloc<MovieTabbedEvent, MovieTabbedState> {
-  
   final GetPopular getPopular;
   final GetPlayingNow getPlayingNow;
   final GetComingSoon getComingSoon;
-  
-  MovieTabbedBloc({
-    @required this.getPopular,
-    @required this.getPlayingNow,
-    @required this.getComingSoon
-  }) : super(MovieTabbedInitial());
+
+  MovieTabbedBloc(
+      {@required this.getPopular,
+      @required this.getPlayingNow,
+      @required this.getComingSoon})
+      : super(MovieTabbedInitial());
 
   @override
   Stream<MovieTabbedState> mapEventToState(
     MovieTabbedEvent event,
   ) async* {
     if (event is MovieTabChangedEvent) {
+      yield MovieTabLoading(currentTabIndex: event.currentTabIndex);
       Either<AppError, List<MovieEntity>> moviesEither;
 
       switch (event.currentTabIndex) {
@@ -45,12 +45,10 @@ class MovieTabbedBloc extends Bloc<MovieTabbedEvent, MovieTabbedState> {
           moviesEither = await getComingSoon(NoParams());
           break;
       }
-      
+
       yield moviesEither.fold(
         (l) => MovieTabLoadError(
-          currentTabIndex: event.currentTabIndex,
-          errorType: l.errorType
-        ),
+            currentTabIndex: event.currentTabIndex, errorType: l.errorType),
         (movies) {
           return MovieTabChanged(
             currentTabIndex: event.currentTabIndex,

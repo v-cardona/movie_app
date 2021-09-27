@@ -32,6 +32,7 @@ import 'package:movie_app/domain/usecases/update_language.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
+import 'package:movie_app/presentation/blocs/loading/loading_bloc.dart';
 import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
@@ -138,8 +139,14 @@ Future init() async {
   );
 
   // bloc
+  getItInstance.registerSingleton<LoadingBloc>(
+    LoadingBloc(),
+  );
   getItInstance.registerFactory(() => MovieCarouselBloc(
-      getTrending: getItInstance(), movieBackdropBloc: getItInstance()));
+        getTrending: getItInstance(),
+        movieBackdropBloc: getItInstance(),
+        loadingBloc: getItInstance(),
+      ));
   getItInstance.registerLazySingleton(() => MovieBackdropBloc());
   getItInstance.registerFactory(
     () => MovieTabbedBloc(
@@ -158,10 +165,12 @@ Future init() async {
     LoginBloc(
       loginUser: getItInstance(),
       logoutUser: getItInstance(),
+      loadingBloc: getItInstance(),
     ),
   );
   getItInstance.registerFactory(
     () => MovieDetailBloc(
+      loadingBloc: getItInstance(),
       getMovieDetail: getItInstance(),
       castBloc: getItInstance(),
       videosBloc: getItInstance(),
@@ -171,8 +180,10 @@ Future init() async {
   getItInstance.registerFactory(() => CastBloc(getCast: getItInstance()));
   getItInstance.registerFactory(() => VideosBloc(getVideos: getItInstance()));
 
-  getItInstance
-      .registerFactory(() => SearchMovieBloc(searchMovies: getItInstance()));
+  getItInstance.registerFactory(() => SearchMovieBloc(
+        loadingBloc: getItInstance(),
+        searchMovies: getItInstance(),
+      ));
   getItInstance.registerFactory(
     () => FavouriteBloc(
       saveMovie: getItInstance(),

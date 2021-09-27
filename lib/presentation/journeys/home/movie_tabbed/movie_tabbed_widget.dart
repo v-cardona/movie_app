@@ -8,6 +8,7 @@ import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tabbed/tab_title_widget.dart';
+import 'package:movie_app/presentation/journeys/loading/loading_circle.dart';
 import 'package:movie_app/presentation/widgets/app_error_widget.dart';
 
 import 'movie_list_view_builder.dart';
@@ -17,9 +18,10 @@ class MovieTabbedWidget extends StatefulWidget {
   _MovieTabbedWidgetState createState() => _MovieTabbedWidgetState();
 }
 
-class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTickerProviderStateMixin {
-
-  MovieTabbedBloc get movieTabbedBloc => BlocProvider.of<MovieTabbedBloc>(context);
+class _MovieTabbedWidgetState extends State<MovieTabbedWidget>
+    with SingleTickerProviderStateMixin {
+  MovieTabbedBloc get movieTabbedBloc =>
+      BlocProvider.of<MovieTabbedBloc>(context);
   int currentTabIndex = 0;
 
   @override
@@ -35,7 +37,6 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-
     final globalContext = context;
 
     return BlocBuilder<MovieTabbedBloc, MovieTabbedState>(
@@ -48,36 +49,44 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  for (var i = 0; i < MovieTabbedConstants.movieTabs.length; i++)
+                  for (var i = 0;
+                      i < MovieTabbedConstants.movieTabs.length;
+                      i++)
                     TabTitleWidget(
                       title: MovieTabbedConstants.movieTabs[i].title,
                       onTap: () => _onTabTapped(i),
-                      isSelected: MovieTabbedConstants.movieTabs[i].index == state.currentTabIndex,
+                      isSelected: MovieTabbedConstants.movieTabs[i].index ==
+                          state.currentTabIndex,
                     )
                 ],
               ),
-              
               if (state is MovieTabChanged)
                 state.movies?.isEmpty ?? true
-                ? Expanded(
-                    child: Center(
-                      child: Text(
-                        TranslationConstants.noMovies.translate(globalContext),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle1,
+                    ? Expanded(
+                        child: Center(
+                            child: Text(
+                          TranslationConstants.noMovies
+                              .translate(globalContext),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle1,
+                        )),
                       )
-                    ),
-                  )
-                : Expanded(
-                    child: MovieListViewBuilder(movies: state.movies),
-                  ),
+                    : Expanded(
+                        child: MovieListViewBuilder(movies: state.movies),
+                      ),
               if (state is MovieTabLoadError)
                 Expanded(
                   child: AppErrorWidget(
-                    errorType: state.errorType,
-                    onPressed: () => movieTabbedBloc.add(
-                      MovieTabChangedEvent(currentTabIndex: currentTabIndex)
-                    )
+                      errorType: state.errorType,
+                      onPressed: () => movieTabbedBloc.add(MovieTabChangedEvent(
+                          currentTabIndex: currentTabIndex))),
+                ),
+              if (state is MovieTabLoading)
+                Expanded(
+                  child: Center(
+                    child: LoadingCircle(
+                      size: Sizes.dimen_100.w,
+                    ),
                   ),
                 )
             ],
@@ -86,7 +95,7 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
       },
     );
   }
-  
+
   void _onTabTapped(int index) {
     movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: index));
   }
