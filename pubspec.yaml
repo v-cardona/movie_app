@@ -55,7 +55,7 @@ dependencies:
   # local dba
   hive: ^1.4.1+1
   path_provider: ^1.6.11
-  # splash screen / loading
+  # animations on rive app
   flare_flutter: ^2.0.6
 
 dev_dependencies:
