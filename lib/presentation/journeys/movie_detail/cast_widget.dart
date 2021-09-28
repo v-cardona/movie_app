@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/data/core/api_constants.dart';
-import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
+import 'package:movie_app/presentation/blocs/cast/cast_cubit.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
 class CastWidget extends StatelessWidget {
@@ -13,7 +13,7 @@ class CastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CastBloc, CastState>(
+    return BlocBuilder<CastCubit, CastState>(
       builder: (context, state) {
         if (state is CastLoaded) {
           return Container(
@@ -30,36 +30,34 @@ class CastWidget extends StatelessWidget {
                   child: Card(
                     elevation: 1,
                     margin: EdgeInsets.symmetric(
-                      horizontal: Sizes.dimen_8.w,
-                      vertical: Sizes.dimen_4.h
-                    ),
+                        horizontal: Sizes.dimen_8.w, vertical: Sizes.dimen_4.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(Sizes.dimen_8.w)
-                      )
-                    ),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Sizes.dimen_8.w))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: ClipRRect(
                             borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(Sizes.dimen_8.w)
-                            ),
+                                top: Radius.circular(Sizes.dimen_8.w)),
                             child: CachedNetworkImage(
                               height: Sizes.dimen_100.h,
                               width: Sizes.dimen_160.w,
-                              imageUrl: '${ApiConstants.BASE_IMAGE_URL}${castEntity.posterPath}',
+                              imageUrl:
+                                  '${ApiConstants.BASE_IMAGE_URL}${castEntity.posterPath}',
                               errorWidget: (context, url, error) {
-                                return Image(image: AssetImage('assets/jpgs/placeholder_person.jpg'));
+                                return Image(
+                                    image: AssetImage(
+                                        'assets/jpgs/placeholder_person.jpg'));
                               },
                               fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Sizes.dimen_8.w),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: Sizes.dimen_8.w),
                           child: Text(
                             castEntity.name,
                             overflow: TextOverflow.fade,
@@ -69,10 +67,9 @@ class CastWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            left: Sizes.dimen_8.w,
-                            right: Sizes.dimen_8.w,
-                            bottom: Sizes.dimen_2.w
-                          ),
+                              left: Sizes.dimen_8.w,
+                              right: Sizes.dimen_8.w,
+                              bottom: Sizes.dimen_2.w),
                           child: Text(
                             castEntity.character,
                             overflow: TextOverflow.ellipsis,

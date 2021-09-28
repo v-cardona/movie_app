@@ -15,19 +15,19 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  FavouriteBloc _favouriteBloc;
+  FavouriteCubit _favouriteCubit;
 
   @override
   void initState() {
     super.initState();
-    _favouriteBloc = getItInstance<FavouriteBloc>();
-    _favouriteBloc.add(LoadFavouriteMovieEvent());
+    _favouriteCubit = getItInstance<FavouriteCubit>();
+    _favouriteCubit.loadFavouriteMovies();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _favouriteBloc.close();
+    _favouriteCubit.close();
   }
 
   @override
@@ -39,8 +39,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         ),
       ),
       body: BlocProvider.value(
-        value: _favouriteBloc,
-        child: BlocBuilder<FavouriteBloc, FavouriteState>(
+        value: _favouriteCubit,
+        child: BlocBuilder<FavouriteCubit, FavouriteState>(
           builder: (context, state) {
             if (state is FavouriteMoviesLoaded) {
               if (state.movies.isEmpty) {

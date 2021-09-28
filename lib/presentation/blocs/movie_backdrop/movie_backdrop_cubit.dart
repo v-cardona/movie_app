@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 

@@ -29,17 +29,17 @@ import 'package:movie_app/domain/usecases/logout_user.dart';
 import 'package:movie_app/domain/usecases/save_movie.dart';
 import 'package:movie_app/domain/usecases/search_movies.dart';
 import 'package:movie_app/domain/usecases/update_language.dart';
-import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
+import 'package:movie_app/presentation/blocs/cast/cast_cubit.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
-import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
+import 'package:movie_app/presentation/blocs/language/language_cubit.dart';
 import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
-import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
+import 'package:movie_app/presentation/blocs/login/login_cubit.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_cubit.dart';
-import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
-import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
-import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
-import 'package:movie_app/presentation/blocs/search_movie/search_movie_bloc.dart';
-import 'package:movie_app/presentation/blocs/videos/videos_bloc.dart';
+import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_cubit.dart';
+import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_cubit.dart';
+import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_cubit.dart';
+import 'package:movie_app/presentation/blocs/search_movie/search_movie_cubit.dart';
+import 'package:movie_app/presentation/blocs/videos/videos_cubit.dart';
 
 final getItInstance = GetIt.I;
 
@@ -143,49 +143,49 @@ Future init() async {
     LoadingCubit(),
   );
   getItInstance.registerLazySingleton(() => MovieBackdropCubit());
-  getItInstance.registerFactory(() => MovieCarouselBloc(
+  getItInstance.registerFactory(() => MovieCarouselCubit(
         getTrending: getItInstance(),
         movieBackdropCubit: getItInstance(),
         loadingCubit: getItInstance(),
       ));
   getItInstance.registerFactory(
-    () => MovieTabbedBloc(
+    () => MovieTabbedCubit(
       getPopular: getItInstance(),
       getComingSoon: getItInstance(),
       getPlayingNow: getItInstance(),
     ),
   );
-  getItInstance.registerSingleton<LanguageBloc>(
-    LanguageBloc(
+  getItInstance.registerSingleton<LanguageCubit>(
+    LanguageCubit(
       getPreferredLanguage: getItInstance(),
       updateLanguage: getItInstance(),
     ),
   );
-  getItInstance.registerSingleton<LoginBloc>(
-    LoginBloc(
+  getItInstance.registerSingleton<LoginCubit>(
+    LoginCubit(
       loginUser: getItInstance(),
       logoutUser: getItInstance(),
       loadingCubit: getItInstance(),
     ),
   );
   getItInstance.registerFactory(
-    () => MovieDetailBloc(
+    () => MovieDetailCubit(
       loadingCubit: getItInstance(),
       getMovieDetail: getItInstance(),
-      castBloc: getItInstance(),
-      videosBloc: getItInstance(),
-      favouriteBloc: getItInstance(),
+      castCubit: getItInstance(),
+      videosCubit: getItInstance(),
+      favouriteCubit: getItInstance(),
     ),
   );
-  getItInstance.registerFactory(() => CastBloc(getCast: getItInstance()));
-  getItInstance.registerFactory(() => VideosBloc(getVideos: getItInstance()));
+  getItInstance.registerFactory(() => CastCubit(getCast: getItInstance()));
+  getItInstance.registerFactory(() => VideosCubit(getVideos: getItInstance()));
 
-  getItInstance.registerFactory(() => SearchMovieBloc(
+  getItInstance.registerFactory(() => SearchMovieCubit(
         loadingCubit: getItInstance(),
         searchMovies: getItInstance(),
       ));
   getItInstance.registerFactory(
-    () => FavouriteBloc(
+    () => FavouriteCubit(
       saveMovie: getItInstance(),
       getFavouritesMovies: getItInstance(),
       deleteFavouriteMovie: getItInstance(),

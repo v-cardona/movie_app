@@ -29,15 +29,14 @@ class MovieDetailAppBar extends StatelessWidget {
             size: Sizes.dimen_12.h,
           ),
         ),
-        BlocBuilder<FavouriteBloc, FavouriteState>(
+        BlocBuilder<FavouriteCubit, FavouriteState>(
           builder: (context, state) {
             if (state is IsFavouriteMovie) {
               return GestureDetector(
-                onTap: () => BlocProvider.of<FavouriteBloc>(context).add(
-                  ToggleFavouriteMovieEvent(
-                    MovieEntity.fromMovieDetailEntity(movieDetailEntity),
-                    state.isFavourite,
-                  ),
+                onTap: () => BlocProvider.of<FavouriteCubit>(context)
+                    .toogleFavouriteMovie(
+                  MovieEntity.fromMovieDetailEntity(movieDetailEntity),
+                  state.isFavourite,
                 ),
                 child: Icon(
                   state.isFavourite ? Icons.favorite : Icons.favorite_border,

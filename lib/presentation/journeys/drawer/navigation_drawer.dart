@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/common/constants/routes_constants.dart';
-import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
+import 'package:movie_app/presentation/blocs/login/login_cubit.dart';
 import 'package:movie_app/presentation/widgets/app_dialog.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -10,7 +10,7 @@ import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
-import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
+import 'package:movie_app/presentation/blocs/language/language_cubit.dart';
 import 'package:movie_app/presentation/widgets/logo.dart';
 
 import 'navigation_expanded_list_item.dart';
@@ -56,8 +56,9 @@ class NavigationDrawer extends StatelessWidget {
               title: TranslationConstants.language.translate(context),
               children: Languages.languages.map((e) => e.value).toList(),
               onPressed: (index) {
-                BlocProvider.of<LanguageBloc>(context)
-                    .add(ToggleLanguageEvent(Languages.languages[index]));
+                BlocProvider.of<LanguageCubit>(context).toogleLanguage(
+                  Languages.languages[index],
+                );
               },
             ),
             NavigationListItem(
@@ -74,7 +75,7 @@ class NavigationDrawer extends StatelessWidget {
                 _showDialog(context);
               },
             ),
-            BlocListener<LoginBloc, LoginState>(
+            BlocListener<LoginCubit, LoginState>(
               listenWhen: (previous, current) => current is LogoutSuccess,
               listener: (context, state) {
                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -83,7 +84,7 @@ class NavigationDrawer extends StatelessWidget {
               child: NavigationListItem(
                 title: TranslationConstants.logout.translate(context),
                 onPressed: () {
-                  BlocProvider.of<LoginBloc>(context).add(LogoutEvent());
+                  BlocProvider.of<LoginCubit>(context).logout();
                 },
               ),
             ),

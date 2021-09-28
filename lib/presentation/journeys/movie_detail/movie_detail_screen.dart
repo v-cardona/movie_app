@@ -6,10 +6,10 @@ import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/di/get_it.dart';
-import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
+import 'package:movie_app/presentation/blocs/cast/cast_cubit.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
-import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
-import 'package:movie_app/presentation/blocs/videos/videos_bloc.dart';
+import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_cubit.dart';
+import 'package:movie_app/presentation/blocs/videos/videos_cubit.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_arguments.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/videos_widget.dart';
 
@@ -28,31 +28,29 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  MovieDetailBloc _movieDetailBloc;
-  CastBloc _castBloc;
-  VideosBloc _videosBloc;
-  FavouriteBloc _favouriteBloc;
+  MovieDetailCubit _movieDetailCubit;
+  CastCubit _castCubit;
+  VideosCubit _videosCubit;
+  FavouriteCubit _favouriteCubit;
 
   @override
   void initState() {
     super.initState();
-    _movieDetailBloc = getItInstance<MovieDetailBloc>();
-    _castBloc = _movieDetailBloc.castBloc;
-    _videosBloc = _movieDetailBloc.videosBloc;
-    _favouriteBloc = _movieDetailBloc.favouriteBloc;
-    _movieDetailBloc.add(
-      MovieDetailLoadEvent(
-        widget.movieDetailArguments.movieId,
-      ),
+    _movieDetailCubit = getItInstance<MovieDetailCubit>();
+    _castCubit = _movieDetailCubit.castCubit;
+    _videosCubit = _movieDetailCubit.videosCubit;
+    _favouriteCubit = _movieDetailCubit.favouriteCubit;
+    _movieDetailCubit.loadMovieDetail(
+      widget.movieDetailArguments.movieId,
     );
   }
 
   @override
   void dispose() {
-    _movieDetailBloc?.close();
-    _castBloc?.close();
-    _videosBloc?.close();
-    _favouriteBloc?.close();
+    _movieDetailCubit?.close();
+    _castCubit?.close();
+    _videosCubit?.close();
+    _favouriteCubit?.close();
     super.dispose();
   }
 
@@ -61,12 +59,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     return Scaffold(
       body: MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _movieDetailBloc),
-          BlocProvider.value(value: _castBloc),
-          BlocProvider.value(value: _videosBloc),
-          BlocProvider.value(value: _favouriteBloc)
+          BlocProvider.value(value: _movieDetailCubit),
+          BlocProvider.value(value: _castCubit),
+          BlocProvider.value(value: _videosCubit),
+          BlocProvider.value(value: _favouriteCubit)
         ],
-        child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
+        child: BlocBuilder<MovieDetailCubit, MovieDetailState>(
           builder: (context, state) {
             if (state is MovieDetailLoaded) {
               final movieDetail = state.movieDetailEntity;
@@ -94,7 +92,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       ),
                     ),
                     CastWidget(),
-                    VideosWidget(videosBloc: _videosBloc)
+                    VideosWidget(videosCubit: _videosCubit)
                   ],
                 ),
               );

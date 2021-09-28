@@ -7,9 +7,9 @@ import 'package:movie_app/common/constants/routes_constants.dart';
 import 'package:movie_app/common/screenutil/screenutil.dart';
 import 'package:movie_app/di/get_it.dart';
 import 'package:movie_app/presentation/app_localizations.dart';
-import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
+import 'package:movie_app/presentation/blocs/language/language_cubit.dart';
 import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
-import 'package:movie_app/presentation/blocs/login/login_bloc.dart';
+import 'package:movie_app/presentation/blocs/login/login_cubit.dart';
 import 'package:movie_app/presentation/journeys/loading/loading_screen.dart';
 import 'package:movie_app/presentation/routes.dart';
 import 'package:movie_app/presentation/themes/app_color.dart';
@@ -25,24 +25,24 @@ class MovieApp extends StatefulWidget {
 
 class _MovieAppState extends State<MovieApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  LanguageBloc _languageBloc;
-  LoginBloc _loginBloc;
+  LanguageCubit _languageCubit;
+  LoginCubit _loginCubit;
   LoadingCubit _loadingCubit;
 
   @override
   void initState() {
     super.initState();
-    _languageBloc = getItInstance<LanguageBloc>();
-    _languageBloc.add(LoadPreferredLanguageEvent());
-    _loginBloc = getItInstance<LoginBloc>();
+    _languageCubit = getItInstance<LanguageCubit>();
+    _languageCubit.loadPreferredLanguage();
+    _loginCubit = getItInstance<LoginCubit>();
     _loadingCubit = getItInstance<LoadingCubit>();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _languageBloc.close();
-    _loginBloc.close();
+    _languageCubit.close();
+    _loginCubit.close();
     _loadingCubit.close();
   }
 
@@ -53,61 +53,58 @@ class _MovieAppState extends State<MovieApp> {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LanguageBloc>.value(
-          value: _languageBloc,
+        BlocProvider<LanguageCubit>.value(
+          value: _languageCubit,
         ),
-        BlocProvider<LoginBloc>.value(
-          value: _loginBloc,
+        BlocProvider<LoginCubit>.value(
+          value: _loginCubit,
         ),
         BlocProvider<LoadingCubit>.value(
           value: _loadingCubit,
         ),
       ],
-      child: BlocBuilder<LanguageBloc, LanguageState>(
-        builder: (context, state) {
-          if (state is LanguageLoaded) {
-            return WiredashApp(
+      child: BlocBuilder<LanguageCubit, Locale>(
+        builder: (context, locale) {
+          return WiredashApp(
+            navigatorKey: _navigatorKey,
+            languageCode: locale?.languageCode,
+            child: MaterialApp(
               navigatorKey: _navigatorKey,
-              languageCode: state.locale.languageCode,
-              child: MaterialApp(
-                navigatorKey: _navigatorKey,
-                debugShowCheckedModeBanner: false,
-                title: 'Movie App',
-                theme: ThemeData(
-                  primaryColor: AppColor.vulcan,
-                  accentColor: AppColor.royalBlue,
-                  scaffoldBackgroundColor: AppColor.vulcan,
-                  unselectedWidgetColor: AppColor.royalBlue,
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                  textTheme: ThemeText.getTextTheme(),
-                  appBarTheme: const AppBarTheme(elevation: 0),
-                ),
-                supportedLocales:
-                    Languages.languages.map((e) => Locale(e.code)).toList(),
-                locale: state.locale,
-                localizationsDelegates: [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate
-                ],
-                builder: (context, child) {
-                  return LoadingScreen(
-                    screen: child,
-                  );
-                },
-                initialRoute: RouteList.initial,
-                onGenerateRoute: (RouteSettings settings) {
-                  final routes = Routes.getRoutes(settings);
-                  final WidgetBuilder builder = routes[settings.name];
-                  return FadePageRouteBuilder(
-                    builder: builder,
-                    settings: settings,
-                  );
-                },
+              debugShowCheckedModeBanner: false,
+              title: 'Movie App',
+              theme: ThemeData(
+                primaryColor: AppColor.vulcan,
+                accentColor: AppColor.royalBlue,
+                scaffoldBackgroundColor: AppColor.vulcan,
+                unselectedWidgetColor: AppColor.royalBlue,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                textTheme: ThemeText.getTextTheme(),
+                appBarTheme: const AppBarTheme(elevation: 0),
               ),
-            );
-          }
-          return const SizedBox.shrink();
+              supportedLocales:
+                  Languages.languages.map((e) => Locale(e.code)).toList(),
+              locale: locale,
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate
+              ],
+              builder: (context, child) {
+                return LoadingScreen(
+                  screen: child,
+                );
+              },
+              initialRoute: RouteList.initial,
+              onGenerateRoute: (RouteSettings settings) {
+                final routes = Routes.getRoutes(settings);
+                final WidgetBuilder builder = routes[settings.name];
+                return FadePageRouteBuilder(
+                  builder: builder,
+                  settings: settings,
+                );
+              },
+            ),
+          );
         },
       ),
     );

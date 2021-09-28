@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -12,50 +10,46 @@ import 'package:movie_app/domain/usecases/get_coming_soon.dart';
 import 'package:movie_app/domain/usecases/get_playing_now.dart';
 import 'package:movie_app/domain/usecases/get_popular.dart';
 
-part 'movie_tabbed_event.dart';
 part 'movie_tabbed_state.dart';
 
-class MovieTabbedBloc extends Bloc<MovieTabbedEvent, MovieTabbedState> {
+class MovieTabbedCubit extends Cubit<MovieTabbedState> {
   final GetPopular getPopular;
   final GetPlayingNow getPlayingNow;
   final GetComingSoon getComingSoon;
 
-  MovieTabbedBloc(
+  MovieTabbedCubit(
       {@required this.getPopular,
       @required this.getPlayingNow,
       @required this.getComingSoon})
       : super(MovieTabbedInitial());
 
-  @override
-  Stream<MovieTabbedState> mapEventToState(
-    MovieTabbedEvent event,
-  ) async* {
-    if (event is MovieTabChangedEvent) {
-      yield MovieTabLoading(currentTabIndex: event.currentTabIndex);
-      Either<AppError, List<MovieEntity>> moviesEither;
+  void changeTabMovie({int currentTabIndex = 0}) async {
+    emit(MovieTabLoading(currentTabIndex: currentTabIndex));
+    Either<AppError, List<MovieEntity>> moviesEither;
 
-      switch (event.currentTabIndex) {
-        case 0:
-          moviesEither = await getPopular(NoParams());
-          break;
-        case 1:
-          moviesEither = await getPlayingNow(NoParams());
-          break;
-        case 2:
-          moviesEither = await getComingSoon(NoParams());
-          break;
-      }
+    switch (currentTabIndex) {
+      case 0:
+        moviesEither = await getPopular(NoParams());
+        break;
+      case 1:
+        moviesEither = await getPlayingNow(NoParams());
+        break;
+      case 2:
+        moviesEither = await getComingSoon(NoParams());
+        break;
+    }
 
-      yield moviesEither.fold(
+    emit(
+      moviesEither.fold(
         (l) => MovieTabLoadError(
-            currentTabIndex: event.currentTabIndex, errorType: l.errorType),
+            currentTabIndex: currentTabIndex, errorType: l.errorType),
         (movies) {
           return MovieTabChanged(
-            currentTabIndex: event.currentTabIndex,
+            currentTabIndex: currentTabIndex,
             movies: movies,
           );
         },
-      );
-    }
+      ),
+    );
   }
 }

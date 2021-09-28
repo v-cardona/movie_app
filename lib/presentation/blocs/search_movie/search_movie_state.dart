@@ -1,8 +1,8 @@
-part of 'search_movie_bloc.dart';
+part of 'search_movie_cubit.dart';
 
 abstract class SearchMovieState extends Equatable {
   const SearchMovieState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -13,7 +13,7 @@ class SearchMovieLoaded extends SearchMovieState {
   final List<MovieEntity> movies;
 
   SearchMovieLoaded(this.movies);
-  
+
   @override
   List<Object> get props => [movies];
 }

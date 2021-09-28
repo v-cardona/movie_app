@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -10,39 +9,35 @@ import 'package:movie_app/domain/usecases/get_trending.dart';
 import 'package:movie_app/presentation/blocs/loading/loading_cubit.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_cubit.dart';
 
-part 'movie_carousel_event.dart';
 part 'movie_carousel_state.dart';
 
-class MovieCarouselBloc extends Bloc<MovieCarouselEvent, MovieCarouselState> {
+class MovieCarouselCubit extends Cubit<MovieCarouselState> {
   final GetTrending getTrending;
   final MovieBackdropCubit movieBackdropCubit;
   final LoadingCubit loadingCubit;
 
-  MovieCarouselBloc({
+  MovieCarouselCubit({
     @required this.getTrending,
     @required this.movieBackdropCubit,
     @required this.loadingCubit,
   }) : super(MovieCarouselInitial());
 
-  @override
-  Stream<MovieCarouselState> mapEventToState(
-    MovieCarouselEvent event,
-  ) async* {
-    if (event is CarouselLoadEvent) {
-      loadingCubit.show();
-      final moviesEither = await getTrending(NoParams());
+  void loadCarousel({int movieIndex = 0}) async {
+    loadingCubit.show();
+    final moviesEither = await getTrending(NoParams());
 
-      yield moviesEither.fold(
+    emit(
+      moviesEither.fold(
         (l) => MovieCarouselError(l.errorType),
         (movies) {
-          movieBackdropCubit.backdropChanged(movies[event.defaultIndex]);
+          movieBackdropCubit.backdropChanged(movies[movieIndex]);
           return MovieCarouselLoaded(
             movies: movies,
-            defaultIndex: event.defaultIndex,
+            defaultIndex: movieIndex,
           );
         },
-      );
-      loadingCubit.hide();
-    }
+      ),
+    );
+    loadingCubit.hide();
   }
 }

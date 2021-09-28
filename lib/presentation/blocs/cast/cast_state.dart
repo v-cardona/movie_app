@@ -1,8 +1,8 @@
-part of 'cast_bloc.dart';
+part of 'cast_cubit.dart';
 
 abstract class CastState extends Equatable {
   const CastState();
-  
+
   @override
   List<Object> get props => [];
 }
