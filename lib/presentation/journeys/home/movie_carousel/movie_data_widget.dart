@@ -7,7 +7,7 @@ import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_cubit
 class MovieDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieBackdropCubit, MovieEntity>(
+    return BlocBuilder<MovieBackdropCubit, MovieEntity?>(
       builder: (context, movie) {
         return Text(
           movie?.title ?? '',

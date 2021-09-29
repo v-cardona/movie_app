@@ -3,8 +3,8 @@ import 'package:movie_app/data/models/cast_crew_result_data_model.dart';
 import 'package:movie_app/data/models/movie_detail_model.dart';
 import 'package:movie_app/data/models/movie_model.dart';
 import 'package:movie_app/data/models/movies_result_model.dart';
+import 'package:movie_app/data/models/video_model.dart';
 import 'package:movie_app/data/models/video_result_model.dart';
-import 'package:movie_app/domain/entities/video_entity.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getTrending();
@@ -14,7 +14,7 @@ abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getSearchedMovies(String searchTerm);
   Future<MovieDetailModel> getMovieDetail(int id);
   Future<List<CastModel>> getCastCrew(int id);
-  Future<List<VideoEntity>> getVideos(int id);
+  Future<List<VideoModel>> getVideos(int id);
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
@@ -28,7 +28,7 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
     List<MovieModel> movies = MoviesResultModel.fromJson(response).movies;
     return movies;
   }
-  
+
   @override
   Future<List<MovieModel>> getPopular() async {
     final response = await _client.get('movie/popular');
@@ -54,9 +54,18 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   Future<MovieDetailModel> getMovieDetail(int id) async {
     final response = await _client.get('movie/$id');
     final movie = MovieDetailModel.fromJson(response);
-    return movie;
+    if (_isValidMovieDetail(movie)) {
+      return movie;
+    }
+    throw Exception();
   }
-  
+
+  bool _isValidMovieDetail(MovieDetailModel movie) {
+    return movie.id != -1 &&
+        movie.title.isNotEmpty &&
+        movie.posterPath.isNotEmpty;
+  }
+
   @override
   Future<List<CastModel>> getCastCrew(int id) async {
     final response = await _client.get('movie/$id/credits');
@@ -65,7 +74,7 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<List<VideoEntity>> getVideos(int id) async {
+  Future<List<VideoModel>> getVideos(int id) async {
     final response = await _client.get('movie/$id/videos');
     final videos = VideoResultModel.fromJson(response).videos;
     return videos;
@@ -73,12 +82,8 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
 
   @override
   Future<List<MovieModel>> getSearchedMovies(String searchTerm) async {
-    final response = await _client.get(
-      'search/movie',
-      params: {
-        'query': searchTerm
-      }
-    );
+    final response =
+        await _client.get('search/movie', params: {'query': searchTerm});
     List<MovieModel> movies = MoviesResultModel.fromJson(response).movies;
     return movies;
   }

@@ -9,12 +9,15 @@ import 'package:movie_app/presentation/widgets/button.dart';
 class VideosWidget extends StatelessWidget {
   final VideosCubit videosCubit;
 
-  const VideosWidget({Key key, @required this.videosCubit}) : super(key: key);
+  const VideosWidget({
+    Key? key,
+    required this.videosCubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: videosCubit,
+      bloc: videosCubit,
       builder: (context, state) {
         if (state is VideosLoaded && state.videos.iterator.moveNext()) {
           final _videos = state.videos;

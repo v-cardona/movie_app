@@ -12,7 +12,9 @@ class CastInitial extends CastState {}
 class CastLoaded extends CastState {
   final List<CastEntity> casts;
 
-  CastLoaded({@required this.casts});
+  CastLoaded({
+    required this.casts,
+  });
 
   @override
   List<Object> get props => [casts];

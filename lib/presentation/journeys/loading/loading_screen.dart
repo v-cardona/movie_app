@@ -8,7 +8,10 @@ import 'package:movie_app/presentation/themes/app_color.dart';
 
 class LoadingScreen extends StatelessWidget {
   final Widget screen;
-  const LoadingScreen({Key key, @required this.screen}) : super(key: key);
+  const LoadingScreen({
+    Key? key,
+    required this.screen,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,8 +3,8 @@ class LoginRequestParams {
   final String password;
 
   LoginRequestParams({
-    this.userName,
-    this.password,
+    required this.userName,
+    required this.password,
   });
 
   Map<String, dynamic> toJson() {

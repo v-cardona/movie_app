@@ -8,8 +8,8 @@ import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 
 class MovieDetailAppBar extends StatelessWidget {
   const MovieDetailAppBar({
-    Key key,
-    @required this.movieDetailEntity,
+    Key? key,
+    required this.movieDetailEntity,
   }) : super(key: key);
 
   final MovieDetailEntity movieDetailEntity;

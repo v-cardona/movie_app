@@ -11,7 +11,10 @@ import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_argume
 class SearchMovieCard extends StatelessWidget {
   final MovieEntity movie;
 
-  const SearchMovieCard({Key key, @required this.movie}) : super(key: key);
+  const SearchMovieCard({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class SearchMovieCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 Text(
-                  movie.overview,
+                  movie.overview ?? '',
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.greyCaption,

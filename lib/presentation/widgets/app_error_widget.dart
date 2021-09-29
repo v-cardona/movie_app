@@ -9,14 +9,13 @@ import 'package:movie_app/domain/entities/app_error.dart';
 import 'package:movie_app/presentation/widgets/button.dart';
 
 class AppErrorWidget extends StatelessWidget {
-
   final AppErrorType errorType;
-  final Function onPressed;
+  final Function() onPressed;
 
   const AppErrorWidget({
-    Key key,
-    @required this.errorType,
-    @required this.onPressed
+    Key? key,
+    required this.errorType,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -29,21 +28,17 @@ class AppErrorWidget extends StatelessWidget {
         children: [
           Text(
             errorType == AppErrorType.api
-              ? TranslationConstants.somethingWentWrong.translate(context)
-              : TranslationConstants.checkNetwork.translate(context),
+                ? TranslationConstants.somethingWentWrong.translate(context)
+                : TranslationConstants.checkNetwork.translate(context),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           ButtonBar(
             children: [
+              Button(text: TranslationConstants.retry, onPressed: onPressed),
               Button(
-                text: TranslationConstants.retry,
-                onPressed: onPressed
-              ),
-              Button(
-                text: TranslationConstants.feedback,
-                onPressed: () => Wiredash.of(context).show()
-              )
+                  text: TranslationConstants.feedback,
+                  onPressed: () => Wiredash.of(context)?.show())
             ],
           )
         ],

@@ -12,14 +12,16 @@ import 'package:movie_app/presentation/widgets/button.dart';
 import 'label_field_widget.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  LoginForm({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController _userNameController, _passwordController;
+  late TextEditingController _userNameController, _passwordController;
   bool enableSignIn = false;
 
   @override
@@ -43,8 +45,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void dispose() {
-    _userNameController?.dispose();
-    _passwordController?.dispose();
+    _userNameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -98,13 +100,11 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             Button(
-              onPressed: enableSignIn
-                  ? () {
-                      BlocProvider.of<LoginCubit>(context).login(
-                        _userNameController.text,
-                        _passwordController.text,
-                      );
-                    }
+              onPressed: () => enableSignIn
+                  ? BlocProvider.of<LoginCubit>(context).login(
+                      _userNameController.text,
+                      _passwordController.text,
+                    )
                   : null,
               text: TranslationConstants.signIn,
               isEnabled: enableSignIn,

@@ -65,7 +65,7 @@ class NavigationDrawer extends StatelessWidget {
               title: TranslationConstants.feedback.translate(context),
               onPressed: () {
                 Navigator.of(context).pop();
-                Wiredash.of(context).show();
+                Wiredash.of(context)?.show();
               },
             ),
             NavigationListItem(
@@ -97,7 +97,7 @@ class NavigationDrawer extends StatelessWidget {
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
-      child: AppDialog(
+      builder: (context) => AppDialog(
         title: TranslationConstants.about,
         description: TranslationConstants.aboutDescription,
         buttonText: TranslationConstants.okay,

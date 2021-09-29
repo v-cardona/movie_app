@@ -10,7 +10,9 @@ import 'package:movie_app/presentation/journeys/search_movie/custom_search_movie
 import 'logo.dart';
 
 class MovieAppBar extends StatelessWidget {
-  const MovieAppBar({Key key}) : super(key: key);
+  const MovieAppBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

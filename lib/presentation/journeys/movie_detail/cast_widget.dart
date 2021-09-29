@@ -9,7 +9,9 @@ import 'package:movie_app/presentation/blocs/cast/cast_cubit.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
 class CastWidget extends StatelessWidget {
-  const CastWidget({Key key}) : super(key: key);
+  const CastWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

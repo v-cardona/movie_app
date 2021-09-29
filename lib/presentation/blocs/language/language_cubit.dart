@@ -16,8 +16,8 @@ class LanguageCubit extends Cubit<Locale> {
   final UpdateLanguage updateLanguage;
 
   LanguageCubit({
-    @required this.getPreferredLanguage,
-    @required this.updateLanguage,
+    required this.getPreferredLanguage,
+    required this.updateLanguage,
   }) : super(Locale(Languages.languages[0].code));
 
   void toogleLanguage(LanguageEntity language) async {

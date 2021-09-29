@@ -1,24 +1,23 @@
 class RequestTokenModel {
   final bool success;
-  final String expiresAt;
-  final String requestToken;
+  late final String? requestToken;
+  late final String? expiresAt;
 
   RequestTokenModel({
-    this.success,
-    this.expiresAt,
+    this.success = false,
     this.requestToken,
+    this.expiresAt,
   });
 
   factory RequestTokenModel.fromJson(Map<String, dynamic> json) {
     return RequestTokenModel(
-        expiresAt: json['expires_at'],
-        requestToken: json['request_token'],
-        success: json['success']);
+      success: json['success'],
+      requestToken: json['request_token'],
+      expiresAt: json['expires_at'],
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'request_token': requestToken,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'request_token': requestToken,
+      };
 }

@@ -6,25 +6,19 @@ import 'package:movie_app/presentation/themes/app_color.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
 class TabTitleWidget extends StatelessWidget {
-
   final String title;
-  final Function onTap;
+  final Function() onTap;
   final bool isSelected;
-  
+
   const TabTitleWidget({
-    Key key,
-    @required this.title,
-    @required this.onTap,
+    Key? key,
+    required this.title,
+    required this.onTap,
     this.isSelected = false,
-  })  :
-        assert(title != null, 'title should not be null'),
-        assert(onTap != null, 'onTap should not be null'),
-        assert(isSelected != null, 'isSelected should not be null'),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: onTap,
       child: Container(

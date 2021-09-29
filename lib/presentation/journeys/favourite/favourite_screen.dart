@@ -8,14 +8,16 @@ import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'favourite_movie_grid_view.dart';
 
 class FavouriteScreen extends StatefulWidget {
-  const FavouriteScreen({Key key}) : super(key: key);
+  const FavouriteScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _FavouriteScreenState createState() => _FavouriteScreenState();
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  FavouriteCubit _favouriteCubit;
+  late FavouriteCubit _favouriteCubit;
 
   @override
   void initState() {

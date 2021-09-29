@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 
@@ -16,9 +15,9 @@ class MovieTable extends MovieEntity {
   final String posterPath;
 
   MovieTable({
-    @required this.id,
-    @required this.title,
-    @required this.posterPath,
+    required this.id,
+    required this.title,
+    required this.posterPath,
   }) : super(
           id: id,
           backdropPath: '',

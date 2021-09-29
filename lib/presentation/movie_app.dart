@@ -25,9 +25,9 @@ class MovieApp extends StatefulWidget {
 
 class _MovieAppState extends State<MovieApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  LanguageCubit _languageCubit;
-  LoginCubit _loginCubit;
-  LoadingCubit _loadingCubit;
+  late LanguageCubit _languageCubit;
+  late LoginCubit _loginCubit;
+  late LoadingCubit _loadingCubit;
 
   @override
   void initState() {
@@ -65,21 +65,24 @@ class _MovieAppState extends State<MovieApp> {
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
         builder: (context, locale) {
+          final ThemeData theme = ThemeData();
           return WiredashApp(
             navigatorKey: _navigatorKey,
-            languageCode: locale?.languageCode,
+            languageCode: locale.languageCode,
             child: MaterialApp(
               navigatorKey: _navigatorKey,
               debugShowCheckedModeBanner: false,
               title: 'Movie App',
-              theme: ThemeData(
+              theme: theme.copyWith(
                 primaryColor: AppColor.vulcan,
-                accentColor: AppColor.royalBlue,
                 scaffoldBackgroundColor: AppColor.vulcan,
+                accentColor: AppColor.royalBlue,
                 unselectedWidgetColor: AppColor.royalBlue,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 textTheme: ThemeText.getTextTheme(),
-                appBarTheme: const AppBarTheme(elevation: 0),
+                appBarTheme: const AppBarTheme(
+                  elevation: 0,
+                ),
               ),
               supportedLocales:
                   Languages.languages.map((e) => Locale(e.code)).toList(),
@@ -91,15 +94,15 @@ class _MovieAppState extends State<MovieApp> {
               ],
               builder: (context, child) {
                 return LoadingScreen(
-                  screen: child,
+                  screen: child!,
                 );
               },
               initialRoute: RouteList.initial,
               onGenerateRoute: (RouteSettings settings) {
                 final routes = Routes.getRoutes(settings);
-                final WidgetBuilder builder = routes[settings.name];
+                final WidgetBuilder? builder = routes[settings.name];
                 return FadePageRouteBuilder(
-                  builder: builder,
+                  builder: builder!,
                   settings: settings,
                 );
               },

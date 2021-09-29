@@ -27,7 +27,10 @@ class MovieLocalDataSourceImpl extends MovieLocalDataSource {
     final moviesIds = movieBox.keys;
     List<MovieTable> movies = [];
     moviesIds.forEach((movieId) {
-      movies.add(movieBox.get(movieId));
+      final movie = movieBox.get(movieId);
+      if (movie != null) {
+        movies.add(movie);
+      }
     });
     return movies;
   }

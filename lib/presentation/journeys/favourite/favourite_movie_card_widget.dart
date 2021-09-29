@@ -13,8 +13,8 @@ class FavouriteMovieCardWidget extends StatelessWidget {
   final MovieEntity movie;
 
   const FavouriteMovieCardWidget({
-    Key key,
-    @required this.movie,
+    Key? key,
+    required this.movie,
   }) : super(key: key);
 
   @override

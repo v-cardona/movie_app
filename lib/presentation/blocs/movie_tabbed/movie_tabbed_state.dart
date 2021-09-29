@@ -3,7 +3,9 @@ part of 'movie_tabbed_cubit.dart';
 abstract class MovieTabbedState extends Equatable {
   final int currentTabIndex;
 
-  const MovieTabbedState({this.currentTabIndex});
+  const MovieTabbedState({
+    this.currentTabIndex = 0,
+  });
 
   @override
   List<Object> get props => [this.currentTabIndex];
@@ -14,8 +16,10 @@ class MovieTabbedInitial extends MovieTabbedState {}
 class MovieTabChanged extends MovieTabbedState {
   final List<MovieEntity> movies;
 
-  const MovieTabChanged({int currentTabIndex, this.movies})
-      : super(currentTabIndex: currentTabIndex);
+  const MovieTabChanged({
+    int currentTabIndex = 0,
+    required this.movies,
+  }) : super(currentTabIndex: currentTabIndex);
 
   @override
   List<Object> get props => [currentTabIndex, movies];
@@ -24,11 +28,14 @@ class MovieTabChanged extends MovieTabbedState {
 class MovieTabLoadError extends MovieTabbedState {
   final AppErrorType errorType;
 
-  const MovieTabLoadError({int currentTabIndex, @required this.errorType})
-      : super(currentTabIndex: currentTabIndex);
+  const MovieTabLoadError({
+    int currentTabIndex = 0,
+    required this.errorType,
+  }) : super(currentTabIndex: currentTabIndex);
 }
 
 class MovieTabLoading extends MovieTabbedState {
-  const MovieTabLoading({int currentTabIndex})
-      : super(currentTabIndex: currentTabIndex);
+  const MovieTabLoading({
+    int currentTabIndex = 0,
+  }) : super(currentTabIndex: currentTabIndex);
 }

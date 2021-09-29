@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 import 'package:movie_app/domain/entities/movie_params.dart';
 import 'package:movie_app/domain/entities/no_params.dart';
@@ -18,10 +17,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   final CheckIfFavouriteMovie checkIfFavouriteMovie;
 
   FavouriteCubit({
-    @required this.saveMovie,
-    @required this.getFavouritesMovies,
-    @required this.deleteFavouriteMovie,
-    @required this.checkIfFavouriteMovie,
+    required this.saveMovie,
+    required this.getFavouritesMovies,
+    required this.deleteFavouriteMovie,
+    required this.checkIfFavouriteMovie,
   }) : super(FavouriteInitial());
 
   void toogleFavouriteMovie(MovieEntity movie, bool isFavourite) async {

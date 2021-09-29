@@ -7,13 +7,13 @@ import 'package:movie_app/presentation/themes/app_color.dart';
 
 class Button extends StatelessWidget {
   final String text;
-  final Function onPressed;
+  final Function() onPressed;
   final bool isEnabled;
 
   const Button({
-    Key key,
-    @required this.text,
-    @required this.onPressed,
+    Key? key,
+    required this.text,
+    required this.onPressed,
     this.isEnabled = true,
   }) : super(key: key);
 
@@ -35,7 +35,7 @@ class Button extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
       margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h),
       height: Sizes.dimen_16.h,
-      child: FlatButton(
+      child: TextButton(
         onPressed: isEnabled ? onPressed : null,
         child: Text(
           text.translate(context),

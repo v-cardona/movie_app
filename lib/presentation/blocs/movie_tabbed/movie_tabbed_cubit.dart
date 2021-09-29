@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import 'package:movie_app/domain/entities/app_error.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
@@ -17,15 +16,15 @@ class MovieTabbedCubit extends Cubit<MovieTabbedState> {
   final GetPlayingNow getPlayingNow;
   final GetComingSoon getComingSoon;
 
-  MovieTabbedCubit(
-      {@required this.getPopular,
-      @required this.getPlayingNow,
-      @required this.getComingSoon})
-      : super(MovieTabbedInitial());
+  MovieTabbedCubit({
+    required this.getPopular,
+    required this.getPlayingNow,
+    required this.getComingSoon,
+  }) : super(MovieTabbedInitial());
 
   void changeTabMovie({int currentTabIndex = 0}) async {
     emit(MovieTabLoading(currentTabIndex: currentTabIndex));
-    Either<AppError, List<MovieEntity>> moviesEither;
+    late Either<AppError, List<MovieEntity>> moviesEither;
 
     switch (currentTabIndex) {
       case 0:
@@ -42,7 +41,9 @@ class MovieTabbedCubit extends Cubit<MovieTabbedState> {
     emit(
       moviesEither.fold(
         (l) => MovieTabLoadError(
-            currentTabIndex: currentTabIndex, errorType: l.errorType),
+          currentTabIndex: currentTabIndex,
+          errorType: l.errorType,
+        ),
         (movies) {
           return MovieTabChanged(
             currentTabIndex: currentTabIndex,

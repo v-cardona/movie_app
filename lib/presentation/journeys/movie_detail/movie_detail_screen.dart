@@ -19,19 +19,20 @@ import 'cast_widget.dart';
 class MovieDetailScreen extends StatefulWidget {
   final MovieDetailArguments movieDetailArguments;
 
-  const MovieDetailScreen({Key key, @required this.movieDetailArguments})
-      : assert(movieDetailArguments != null, 'arguments must not be null'),
-        super(key: key);
+  const MovieDetailScreen({
+    Key? key,
+    required this.movieDetailArguments,
+  }) : super(key: key);
 
   @override
   _MovieDetailScreenState createState() => _MovieDetailScreenState();
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  MovieDetailCubit _movieDetailCubit;
-  CastCubit _castCubit;
-  VideosCubit _videosCubit;
-  FavouriteCubit _favouriteCubit;
+  late MovieDetailCubit _movieDetailCubit;
+  late CastCubit _castCubit;
+  late VideosCubit _videosCubit;
+  late FavouriteCubit _favouriteCubit;
 
   @override
   void initState() {
@@ -47,10 +48,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   void dispose() {
-    _movieDetailCubit?.close();
-    _castCubit?.close();
-    _videosCubit?.close();
-    _favouriteCubit?.close();
+    _movieDetailCubit.close();
+    _castCubit.close();
+    _videosCubit.close();
+    _favouriteCubit.close();
     super.dispose();
   }
 
@@ -79,7 +80,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           horizontal: Sizes.dimen_16.w,
                           vertical: Sizes.dimen_8.h),
                       child: Text(
-                        movieDetail.overview,
+                        movieDetail.overview ?? '',
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ),

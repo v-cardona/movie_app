@@ -31,8 +31,9 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
   Future<Either<AppError, bool>> loginUser(Map<String, dynamic> body) async {
     final requestTokenEitherResponse = await _getRequestToken();
-    final token1 =
-        requestTokenEitherResponse.getOrElse(() => null)?.requestToken ?? '';
+    final token1 = requestTokenEitherResponse
+        .getOrElse(() => RequestTokenModel())
+        .requestToken;
 
     try {
       body.putIfAbsent('request_token', () => token1);
@@ -41,7 +42,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
       final sessionId = await _authenticationRemoteDataSource
           .createSession(validateWithLoginToken.toJson());
       if (sessionId != null) {
-        _authenticationLocalDataSource.saveSessionId(sessionId);
+        await _authenticationLocalDataSource.saveSessionId(sessionId);
         return Right(true);
       } else {
         return Left(AppError(AppErrorType.sessionDenied));

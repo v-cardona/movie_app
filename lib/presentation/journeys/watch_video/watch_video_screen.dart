@@ -9,40 +9,32 @@ import 'package:movie_app/presentation/journeys/watch_video/watch_video_argument
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WatchVideoScreen extends StatefulWidget {
-
   final WatchVideoArguments watchVideoArguments;
 
-  WatchVideoScreen({
-    Key key,
-    @required this.watchVideoArguments
-  }) : super(key: key);
+  WatchVideoScreen({Key? key, required this.watchVideoArguments})
+      : super(key: key);
 
   @override
   _WatchVideoScreenState createState() => _WatchVideoScreenState();
 }
 
 class _WatchVideoScreenState extends State<WatchVideoScreen> {
-
-  List<VideoEntity> _videos;
-  YoutubePlayerController _controller;
+  late List<VideoEntity> _videos;
+  late YoutubePlayerController _controller;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _videos = widget.watchVideoArguments.videos;
     _controller = YoutubePlayerController(
-      initialVideoId: _videos[0].key,
-      flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true
-      )
-    );
+        initialVideoId: _videos[0].key,
+        flags: YoutubePlayerFlags(autoPlay: true, mute: true));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -58,10 +50,7 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
           showVideoProgressIndicator: true,
           progressIndicatorColor: Colors.amber,
           progressColors: ProgressBarColors(
-            playedColor: Colors.amber,
-            handleColor: Colors.amberAccent
-          ),
-
+              playedColor: Colors.amber, handleColor: Colors.amberAccent),
         ),
         builder: (context, player) {
           return Column(
@@ -73,7 +62,7 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                     children: [
                       for (int i = 0; i < _videos.length; i++)
                         Container(
-                          height: 60.h,
+                          height: Sizes.dimen_60.h,
                           padding:
                               EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
                           child: GestureDetector(
@@ -90,13 +79,14 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                                     quality: ThumbnailQuality.high,
                                   ),
                                   errorWidget: (context, url, error) {
-                                    return Image.asset('assets/jpgs/placeholder_video.jpg');
+                                    return Image.asset(
+                                        'assets/jpgs/placeholder_video.jpg');
                                   },
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Sizes.dimen_8.w),
                                     child: Text(
                                       _videos[i].title,
                                       style:
@@ -110,7 +100,7 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                         ),
                     ],
                   ),
-                ),        
+                ),
               ),
             ],
           );
