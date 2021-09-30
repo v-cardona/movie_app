@@ -43,6 +43,10 @@ class LoginCubit extends Cubit<LoginState> {
     loadingCubit.hide();
   }
 
+  void loginGuest() async {
+    emit(LoginSuccess());
+  }
+
   void logout() async {
     await logoutUser(NoParams());
     emit(LogoutSuccess());

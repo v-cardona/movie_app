@@ -19,11 +19,12 @@
   "loginToMovieApp": "Inicie sesión en la aplicación a través de TMDb",
   "username": "Nombre de usuario",
   "password": "Contraseña",
-  "signIn": "Registrarse",
+  "signIn": "Iniciar sesión",
   "logout": "Cerrar sesión",
   "wrongUsernamePassword": "El nombre de usuario o la identificación de correo electrónico no son válidos",
   "noNetwork": "No hay conexion de red",
   "sessionDenied": "Sesión denegada",
   "enterTMDbUsername": "Ingrese el nombre de usuario de TMDb aquí ...",
-  "enterPassword": "Ingrese la contraseña aquí..."
+  "enterPassword": "Ingrese la contraseña aquí...",
+  "guestSignIn": "Invitado"
 }
