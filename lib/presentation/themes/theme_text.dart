@@ -46,6 +46,26 @@ class ThemeText {
       subtitle1: whiteSubtitle1,
       bodyText2: whiteBodyText2,
       button: _whiteButton);
+
+  static TextStyle? get _vulcanHeadline6 =>
+      _whiteHeadline6?.copyWith(color: AppColor.vulcan);
+
+  static TextStyle? get _vulcanHeadline5 =>
+      _whiteHeadline5?.copyWith(color: AppColor.vulcan);
+
+  static TextStyle? get vulcanSubtitle1 =>
+      whiteSubtitle1?.copyWith(color: AppColor.vulcan);
+
+  static TextStyle? get vulcanBodyText2 =>
+      whiteBodyText2?.copyWith(color: AppColor.vulcan);
+
+  static getLightTextTheme() => TextTheme(
+        headline5: _vulcanHeadline5,
+        headline6: _vulcanHeadline6,
+        subtitle1: vulcanSubtitle1,
+        bodyText2: vulcanBodyText2,
+        button: _whiteButton,
+      );
 }
 
 extension ThemeTextExtension on TextTheme {

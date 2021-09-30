@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/common/constants/routes_constants.dart';
 import 'package:movie_app/presentation/blocs/login/login_cubit.dart';
+import 'package:movie_app/presentation/blocs/theme/theme_cubit.dart';
+import 'package:movie_app/presentation/themes/app_color.dart';
 import 'package:movie_app/presentation/widgets/app_dialog.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -88,6 +91,25 @@ class NavigationDrawer extends StatelessWidget {
                 },
               ),
             ),
+            Spacer(),
+            BlocBuilder<ThemeCubit, Themes>(
+              builder: (context, theme) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () => context.read<ThemeCubit>().toogleTheme(),
+                    icon: Icon(
+                      theme == Themes.dark
+                          ? Icons.brightness_4_sharp
+                          : Icons.brightness_7_sharp,
+                      color:
+                          theme == Themes.dark ? Colors.white : AppColor.vulcan,
+                      size: Sizes.dimen_40.w,
+                    ),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

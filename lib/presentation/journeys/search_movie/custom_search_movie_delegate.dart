@@ -5,6 +5,7 @@ import 'package:movie_app/common/extensions/string_extensions.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/constants/translation_constants.dart';
 import 'package:movie_app/common/extensions/size_extensions.dart';
+import 'package:movie_app/presentation/blocs/theme/theme_cubit.dart';
 import 'package:movie_app/presentation/journeys/search_movie/search_movie_card.dart';
 import 'package:movie_app/presentation/themes/app_color.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
@@ -42,7 +43,9 @@ class CustomSearchDelegate extends SearchDelegate {
       },
       child: Icon(
         Icons.arrow_back,
-        color: Colors.white,
+        color: context.read<ThemeCubit>().state == Themes.dark
+            ? Colors.white
+            : AppColor.vulcan,
         size: Sizes.dimen_12.h,
       ),
     );

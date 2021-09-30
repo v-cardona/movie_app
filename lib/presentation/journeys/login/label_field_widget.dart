@@ -4,21 +4,11 @@ import 'package:movie_app/common/extensions/size_extensions.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
 class LabelFieldWidget extends StatelessWidget {
+  final Key? textFieldKey;
   final String label;
   final String hintText;
   final bool isPasswordField;
   final TextEditingController controller;
-  final UnderlineInputBorder _enabledBorder = const UnderlineInputBorder(
-    borderSide: BorderSide(
-      color: Colors.grey,
-    ),
-  );
-
-  final UnderlineInputBorder _focusedBorder = const UnderlineInputBorder(
-    borderSide: BorderSide(
-      color: Colors.white,
-    ),
-  );
 
   const LabelFieldWidget({
     Key? key,
@@ -26,6 +16,7 @@ class LabelFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.controller,
     this.isPasswordField = false,
+    this.textFieldKey,
   }) : super(key: key);
 
   @override
@@ -41,16 +32,12 @@ class LabelFieldWidget extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
           TextField(
+            key: textFieldKey,
             obscureText: isPasswordField,
             obscuringCharacter: '*',
             controller: controller,
             style: Theme.of(context).textTheme.headline6,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: Theme.of(context).textTheme.greySubtitle1,
-              focusedBorder: _focusedBorder,
-              enabledBorder: _enabledBorder,
-            ),
+            decoration: InputDecoration(hintText: hintText),
           ),
         ],
       ),

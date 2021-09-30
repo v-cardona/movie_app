@@ -7,6 +7,7 @@ import 'package:movie_app/data/data_sources/authentication_remote_data_source.da
 import 'package:movie_app/data/data_sources/language_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_remote_data_source.dart';
+import 'package:movie_app/data/data_sources/theme_local_data_source.dart';
 import 'package:movie_app/data/repositories/app_repository_impl.dart';
 import 'package:movie_app/data/repositories/authentication_repository_impl.dart';
 import 'package:movie_app/data/repositories/movie_repository_impl.dart';
@@ -22,6 +23,7 @@ import 'package:movie_app/domain/usecases/get_movie_detail.dart';
 import 'package:movie_app/domain/usecases/get_playing_now.dart';
 import 'package:movie_app/domain/usecases/get_popular.dart';
 import 'package:movie_app/domain/usecases/get_preferred_language.dart';
+import 'package:movie_app/domain/usecases/get_preferred_theme.dart';
 import 'package:movie_app/domain/usecases/get_trending.dart';
 import 'package:movie_app/domain/usecases/get_videos.dart';
 import 'package:movie_app/domain/usecases/login_user.dart';
@@ -29,6 +31,7 @@ import 'package:movie_app/domain/usecases/logout_user.dart';
 import 'package:movie_app/domain/usecases/save_movie.dart';
 import 'package:movie_app/domain/usecases/search_movies.dart';
 import 'package:movie_app/domain/usecases/update_language.dart';
+import 'package:movie_app/domain/usecases/update_theme.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_cubit.dart';
 import 'package:movie_app/presentation/blocs/favourite/favourite_bloc.dart';
 import 'package:movie_app/presentation/blocs/language/language_cubit.dart';
@@ -39,6 +42,7 @@ import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_cubit
 import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_cubit.dart';
 import 'package:movie_app/presentation/blocs/movie_tabbed/movie_tabbed_cubit.dart';
 import 'package:movie_app/presentation/blocs/search_movie/search_movie_cubit.dart';
+import 'package:movie_app/presentation/blocs/theme/theme_cubit.dart';
 import 'package:movie_app/presentation/blocs/videos/videos_cubit.dart';
 
 final getItInstance = GetIt.I;
@@ -53,6 +57,8 @@ Future init() async {
       () => MovieLocalDataSourceImpl());
   getItInstance.registerLazySingleton<LanguageLocalDataSource>(
       () => LanguageLocalDataSourceImpl());
+  getItInstance.registerLazySingleton<ThemeLocalDataSource>(
+      () => ThemeLocalDataSourceImpl());
   getItInstance.registerLazySingleton<AuthenticationRemoteDataSource>(
       () => AuthenticationRemoteDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<AuthenticationLocalDataSource>(
@@ -117,6 +123,16 @@ Future init() async {
       getItInstance(),
     ),
   );
+  getItInstance.registerLazySingleton<GetPreferredTheme>(
+    () => GetPreferredTheme(
+      getItInstance(),
+    ),
+  );
+  getItInstance.registerLazySingleton<UpdateTheme>(
+    () => UpdateTheme(
+      getItInstance(),
+    ),
+  );
   // movie repository
   getItInstance.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
@@ -127,6 +143,7 @@ Future init() async {
   // app repository
   getItInstance.registerLazySingleton<AppRepository>(
     () => AppRepositoryImpl(
+      getItInstance(),
       getItInstance(),
     ),
   );
@@ -190,6 +207,12 @@ Future init() async {
       getFavouritesMovies: getItInstance(),
       deleteFavouriteMovie: getItInstance(),
       checkIfFavouriteMovie: getItInstance(),
+    ),
+  );
+  getItInstance.registerFactory(
+    () => ThemeCubit(
+      getPreferredTheme: getItInstance(),
+      updateTheme: getItInstance(),
     ),
   );
 }
